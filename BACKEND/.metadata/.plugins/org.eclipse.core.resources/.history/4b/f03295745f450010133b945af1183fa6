@@ -1,0 +1,38 @@
+package com.example.EMSbackend.Model;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@Table(name="Demo_Employee")
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class DemoModel {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq_demo")
+	@SequenceGenerator(name = "emp_seq_demo", sequenceName = "DEMO_SEQ", allocationSize = 1)
+
+	@Column(name="ID")  //READ Column annotation
+	private Long id;
+	
+	@Column(name="NAME")
+	private String name;
+	
+	@Column(name="ROLL")
+	private Integer roll;
+	
+}

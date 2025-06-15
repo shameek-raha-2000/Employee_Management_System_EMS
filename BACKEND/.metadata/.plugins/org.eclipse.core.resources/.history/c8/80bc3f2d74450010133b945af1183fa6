@@ -1,0 +1,31 @@
+package com.example.EMSbackend.DTO;
+
+import java.time.LocalDate;
+
+import lombok.Data;
+
+@Data
+public class EMSInsertSingleRequestDTO {
+	
+	private Long id;
+	
+	private Integer rid;
+
+	private String name;
+	
+	private String parentName;
+
+	private String streamName;
+	
+	private LocalDate DOB;
+	
+	private LocalDate POY;
+
+	private String mobileNumber;
+	
+	private String mailID;
+
+	private String address;
+	
+	private String status;
+}

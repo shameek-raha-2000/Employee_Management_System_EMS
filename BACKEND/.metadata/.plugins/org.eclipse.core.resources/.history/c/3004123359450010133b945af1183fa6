@@ -1,0 +1,13 @@
+package com.example.EMSbackend.DTO;
+
+import java.util.List;
+
+import com.example.EMSbackend.Model.EMSNewModel;
+
+import lombok.Data;
+
+@Data
+public class EMSRequestDTO {
+
+	private List<EMSNewModel> employeeDetailsRequestAll;
+}

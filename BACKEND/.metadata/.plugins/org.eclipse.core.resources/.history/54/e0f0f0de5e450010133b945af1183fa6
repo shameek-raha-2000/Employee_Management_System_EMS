@@ -1,0 +1,62 @@
+package com.example.EMSbackend.Controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.EMSbackend.DTO.DemoDTO;
+import com.example.EMSbackend.DTO.EMSGETDTO;
+import com.example.EMSbackend.DTO.EMSRequestDTO;
+import com.example.EMSbackend.DTO.EMSResponseDTO;
+import com.example.EMSbackend.Model.DemoModel;
+import com.example.EMSbackend.Service.EMSService;
+
+//@Slf4j
+@RestController
+@CrossOrigin
+@RequestMapping(value = "/ems")
+public class EMSController {
+
+	@Autowired
+	private EMSService emsService;
+	
+	@GetMapping(value="/getEmployeeDetailsAll")
+	public ResponseEntity<EMSGETDTO>getEmployeeDetailsAll() throws Exception{
+		
+		EMSGETDTO response = null;
+	    response = emsService.getEmployeeDetailsAll();  
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	/*@PostMapping("/insertEmployeeDetailsAll")
+	public ResponseEntity<EMSDTOResponse>insertEmployeeDetailsAll(@RequestBody EMSDTORequest requestDataall) throws Exception{
+		EMSDTOResponse response = null;
+		System.out.println("Request Payload: " + requestDataall);
+		response = emsService.insertEmployeeDetailsAll(requestDataall);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}*/
+	
+	//DEMO - WORKING FINE
+	@PostMapping("/insertDemoEmployeeDetails")
+	public ResponseEntity<DemoModel> insertDemoEmployeeDetails(@RequestBody DemoDTO demoDTO) {
+		DemoModel response = null;
+		System.out.println("Request Payload: " + demoDTO);
+		response = emsService.insertDemoEmployeeDetails(demoDTO);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+		
+	}
+	
+	//INSERT_ALL
+	@PostMapping("/insertEmployeeDetailsAll")
+	public ResponseEntity<EMSResponseDTO>insertEmployeeDetailsAll(@RequestBody EMSRequestDTO insertData){
+		
+		EMSResponseDTO response = null;
+		response = emsService.insertEmployeeDetailsAll(insertData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+}

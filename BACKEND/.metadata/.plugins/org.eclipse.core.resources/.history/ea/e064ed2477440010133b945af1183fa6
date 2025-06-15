@@ -1,0 +1,5 @@
+package com.example.EMSbackend.Repository;
+
+public interface DemoRepository {
+
+}

@@ -1,0 +1,532 @@
+package com.example.EMSbackend.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.EMSbackend.DTO.EMSDeleteAllResponseDTO;
+import com.example.EMSbackend.DTO.EMSDeleteRequestDTO;
+import com.example.EMSbackend.DTO.EMSDeleteResponseDTO;
+import com.example.EMSbackend.DTO.EMSGetAllDTO;
+import com.example.EMSbackend.DTO.EMSInsertMultipleRequestDTO;
+import com.example.EMSbackend.DTO.EMSInsertMultipleResponseDTO;
+import com.example.EMSbackend.DTO.EMSInsertSingleRequestDTO;
+import com.example.EMSbackend.DTO.EMSInsertSingleResponseDTO;
+import com.example.EMSbackend.DTO.EMSUpdateAnotherRequestDTO;
+import com.example.EMSbackend.DTO.EMSUpdateAnotherResponseDTO;
+import com.example.EMSbackend.DTO.EMSUpdateRequestDTO;
+import com.example.EMSbackend.DTO.EMSUpdateResponseDTO;
+import com.example.EMSbackend.Model.EMSModel;
+import com.example.EMSbackend.Repository.EMSRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class EMSService {
+
+	@Autowired
+	private EMSRepository emsRepository;
+	
+	
+//GET_ALL_EMPLOYEE_DETAILS
+	
+    public EMSGetAllDTO getEmployeeDetailsAll() {
+    	EMSGetAllDTO response = new EMSGetAllDTO();
+    
+    	
+    	try { 	
+    	List<EMSModel> modelDetails = (List<EMSModel>) emsRepository.findAll();
+    	response.setEmployeeDetailsAll(modelDetails);
+    	
+    	/*if(modelDetails!=null) {
+    		response.setEmployeeDetailsAll(modelDetails);
+    	}
+    	else {
+    		System.out.println("Employee not found");
+    		//log.info("Service response not found");
+    	}*/
+    	
+    	}catch (Exception e) {
+            e.printStackTrace();
+        }
+    	    
+    	return response;
+    }
+    
+//INSERT_ALL_EMPLOYEE_DETAILS(SINGLE_DATA/NOT_LIST)
+    
+    public EMSInsertSingleResponseDTO insertEmployeeDetails(EMSInsertSingleRequestDTO requestData) {
+    	EMSInsertSingleResponseDTO response = new EMSInsertSingleResponseDTO();
+    	String message = "FAILURE";
+    	List<EMSModel> entityList = new ArrayList<>();
+  
+    	try {
+    	if (requestData != null) {
+    		EMSModel entity = new EMSModel();
+    		entity.setId(requestData.getId());
+			entity.setRid(requestData.getRid());
+			entity.setName(requestData.getName());
+			entity.setParentName(requestData.getParentName());
+			entity.setStreamName(requestData.getStreamName());
+			entity.setDOB(requestData.getDOB());
+			entity.setPOY(requestData.getPOY());
+			entity.setMobileNumber(requestData.getMobileNumber());
+			entity.setMailID(requestData.getMailID());
+			entity.setAddress(requestData.getAddress());
+			entity.setStatus(requestData.getStatus());
+			 
+			entityList.add(entity);
+   
+			List<EMSModel> savedEntities = emsRepository.saveAll(entityList);
+			if (savedEntities != null && !savedEntities.isEmpty()) {
+	            message = "SUCCESS";
+	            response.setMessage(message);
+	            response.setCode("200 OK");
+	        } else {
+	            response.setMessage("Insert failed");
+	            response.setCode("500 INTERNAL SERVER ERROR");
+	        }
+    	}else {
+            response.setMessage("Input list is null or empty");
+            response.setCode("400 BAD REQUEST");
+        }
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    		response.setMessage("Exception occurred");
+            response.setCode("500 INTERNAL SERVER ERROR");
+    	}
+  
+    	return response;
+    	
+    }
+    
+    
+   
+//INSERT_ALL_EMPLOYEE_DETAILS(MULTIPLE/LIST)
+    
+    public EMSInsertMultipleResponseDTO insertEmployeeDetailsAll(EMSInsertMultipleRequestDTO insertData) {
+    	EMSInsertMultipleResponseDTO response = new EMSInsertMultipleResponseDTO();
+    	String message = "FAILURE";
+    	
+    	try {
+    		List<EMSModel> dtoList = insertData.getEmployeeDetailsRequestAll();
+ 
+    		if (dtoList != null && !dtoList.isEmpty()) {
+    			
+    			List<EMSModel> entityList = new ArrayList<>();
+    			
+    			for (EMSModel dto : dtoList){
+    				
+    			EMSModel entity = new EMSModel();
+    			 entity.setId(dto.getId());
+    			 entity.setRid(dto.getRid());
+    			 entity.setName(dto.getName());
+    			 entity.setParentName(dto.getParentName());
+    			 entity.setStreamName(dto.getStreamName());
+    			 entity.setDOB(dto.getDOB());
+    			 entity.setPOY(dto.getPOY());
+    			 entity.setMobileNumber(dto.getMobileNumber());
+    			 entity.setMailID(dto.getMailID());
+    			 entity.setAddress(dto.getAddress());
+    			 entity.setStatus(dto.getStatus());
+    			 
+    			 entityList.add(entity);
+    			}
+    			
+    			List<EMSModel> savedEntities = emsRepository.saveAll(entityList);
+                
+
+                if (savedEntities != null && !savedEntities.isEmpty()) {
+                    message = "SUCCESS";
+                    response.setMessage(message);
+                    response.setCode("200 OK");
+                } else {
+                    response.setMessage("Insert failed");
+                    response.setCode("500 INTERNAL SERVER ERROR");
+                }
+    			
+    		}else {
+    			response.setMessage("Input list is null or empty");
+                response.setCode("400 BAD REQUEST");
+    		}
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    		response.setMessage("Exception occurred");
+            response.setCode("500 INTERNAL SERVER ERROR");
+    	}
+    	return response;
+    }
+    
+//UPDATE EMPLOYEE DETAILS -IF I WANT TO SEND ONLY MESSAGE THAT DATA IS UPDATED PROPERLY IN RESPONSE
+    
+    public EMSUpdateResponseDTO updateEmployeeDetails(EMSUpdateRequestDTO insertData) {
+    	EMSUpdateResponseDTO response =new EMSUpdateResponseDTO();
+    	List<EMSModel> entityList =  new ArrayList<>();
+    	List<EMSModel> saveList =  insertData.getGetUpdateDetails(); //Payload data that will be insert
+    	String message = "FAILURE";
+    	
+    	try {
+    	for(EMSModel details :saveList) {
+    		Optional<EMSModel> dbResponse = emsRepository.findById(details.getId());
+    		EMSModel entity =  dbResponse.get(); //Instead of creating new entity(i.e blank entity), we are inserting all the existing data to the entity class object
+    		if(dbResponse.isPresent()) {
+    			
+    			if (details.getId()!=null && details.getRid() != null) {
+    				entity.setRid(details.getRid());
+    			}
+    			if (details.getId()!=null && details.getName() != null) {
+                	entity.setName(details.getName());
+                }
+    			if(details.getId()!=null && details.getParentName() != null){
+                	entity.setParentName(details.getParentName());
+                }
+    			if(details.getId()!=null && details.getStreamName() != null) {
+                	entity.setStreamName(details.getStreamName());
+                }
+    			if(details.getId()!=null && details.getDOB() != null) {
+                	entity.setDOB(details.getDOB());
+                }
+    			if(details.getId()!=null && details.getPOY() != null) {
+                	entity.setPOY(details.getPOY());
+                }
+    			if(details.getId()!=null && details.getMobileNumber() != null) {
+                	entity.setMobileNumber(details.getMobileNumber());
+                }
+    			if(details.getId()!=null && details.getMailID() != null) {
+                	entity.setMailID(details.getMailID());
+                }
+    			if(details.getId()!=null && details.getAddress() != null) {
+                	entity.setAddress(details.getAddress());
+                }
+    			if(details.getId()!=null && details.getStatus() != null){
+                	entity.setStatus(details.getStatus());
+                }
+
+                entityList.add(entity);
+                
+                //Other way also if we want to update only specific field
+    			/*if(details.getId()!=null && details.getRid()!=null 
+    			   && details.getName()==null && details.getParentName()==null 
+    			   && details.getStreamName()==null && details.getDOB()==null 
+    			   && details.getPOY()==null && details.getMobileNumber()==null 
+    			   && details.getMailID()==null && details.getAddress()==null 
+    			   && details.getStatus()==null) {
+    			
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(details.getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    				
+    				
+    			}else if(details.getId()!=null && details.getName()!=null
+    					&& details.getRid()==null && details.getParentName()==null 
+    	    			   && details.getStreamName()==null && details.getDOB()==null 
+    	    			   && details.getPOY()==null && details.getMobileNumber()==null 
+    	    			   && details.getMailID()==null && details.getAddress()==null 
+    	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(details.getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getParentName()!=null
+    					&& details.getRid()==null && details.getName()==null 
+ 	    			   && details.getStreamName()==null && details.getDOB()==null 
+ 	    			   && details.getPOY()==null && details.getMobileNumber()==null 
+ 	    			   && details.getMailID()==null && details.getAddress()==null 
+ 	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(details.getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getStreamName()!=null
+    					&& details.getRid()==null && details.getName()==null 
+  	    			   && details.getParentName()==null && details.getDOB()==null 
+  	    			   && details.getPOY()==null && details.getMobileNumber()==null 
+  	    			   && details.getMailID()==null && details.getAddress()==null 
+  	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(details.getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getDOB()!=null
+    					&& details.getRid()==null && details.getName()==null 
+   	    			   && details.getParentName()==null && details.getStreamName()==null 
+   	    			   && details.getPOY()==null && details.getMobileNumber()==null 
+   	    			   && details.getMailID()==null && details.getAddress()==null 
+   	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName()); 
+    				entity.setDOB(details.getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getPOY()!=null
+    					&& details.getRid()==null && details.getName()==null 
+    	    			   && details.getParentName()==null && details.getStreamName()==null 
+    	    			   && details.getDOB()==null && details.getMobileNumber()==null 
+    	    			   && details.getMailID()==null && details.getAddress()==null 
+    	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(details.getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getMobileNumber()!=null
+    					&& details.getRid()==null && details.getName()==null 
+ 	    			   && details.getParentName()==null && details.getStreamName()==null 
+ 	    			   && details.getDOB()==null && details.getPOY()==null 
+ 	    			   && details.getMailID()==null && details.getAddress()==null 
+ 	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(details.getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getMailID()!=null
+    					&& details.getRid()==null && details.getName()==null 
+  	    			   && details.getParentName()==null && details.getStreamName()==null 
+  	    			   && details.getDOB()==null && details.getPOY()==null 
+  	    			   && details.getMobileNumber()==null && details.getAddress()==null 
+  	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(details.getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else if(details.getId()!=null && details.getAddress()!=null
+    					&& details.getRid()==null && details.getName()==null 
+   	    			   && details.getParentName()==null && details.getStreamName()==null 
+   	    			   && details.getDOB()==null && details.getPOY()==null 
+   	    			   && details.getMobileNumber()==null && details.getMailID()==null 
+   	    			   && details.getStatus()==null) {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(details.getAddress());
+    				entity.setStatus(dbResponse.get().getStatus());
+    				
+    				entityList.add(entity);
+    			}else {
+    				entity.setId(dbResponse.get().getId());
+    				entity.setRid(dbResponse.get().getRid());
+    				entity.setName(dbResponse.get().getName());
+    				entity.setParentName(dbResponse.get().getParentName());
+    				entity.setStreamName(dbResponse.get().getStreamName());
+    				entity.setDOB(dbResponse.get().getDOB());
+    				entity.setPOY(dbResponse.get().getPOY());
+    				entity.setMobileNumber(dbResponse.get().getMobileNumber());
+    				entity.setMailID(dbResponse.get().getMailID());
+    				entity.setAddress(dbResponse.get().getAddress());
+    				entity.setStatus(details.getStatus());
+    				
+    				entityList.add(entity);
+    			}*/
+    			
+    		}
+    	}
+    		//IF I WANT TO SEND ONLY MESSAGE THAT DATA IS UPDATED PROPERLY
+    		List<EMSModel> savedEntities = emsRepository.saveAll(entityList);
+    		if (savedEntities != null && !savedEntities.isEmpty()) {
+	            message = "SUCCESS";
+	            response.setMessage(message);
+	            response.setCode("200 OK");
+	        } else {
+	            response.setMessage("Insert failed");
+	            response.setCode("500 INTERNAL SERVER ERROR");
+	        }
+    		
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return response;
+    }
+//UPDATE EMPLOYEE DETAILS -IF I WANT TO SEND ONLY DTO/DATA THAT DATA IS UPDATED PROPERLY IN RESPONSE
+    
+    public EMSUpdateAnotherResponseDTO updateEmployeeDetailsAnother(EMSUpdateAnotherRequestDTO insertData) {
+    	
+    	EMSUpdateAnotherResponseDTO response =new EMSUpdateAnotherResponseDTO();
+    	
+    	try {
+    	
+    	//List<EMSModel> entityList =  new ArrayList<>();
+    	Optional<EMSModel> dbResponse = emsRepository.findById(insertData.getId());
+		EMSModel entity =  dbResponse.get(); //Instead of creating new entity(i.e blank entity), we are inserting all the existing data to the entity class object
+		if(dbResponse.isPresent()) {
+			
+			if (insertData.getId()!=null && insertData.getRid() != null) {
+				entity.setRid(insertData.getRid());
+			}
+			if (insertData.getId()!=null && insertData.getName() != null) {
+            	entity.setName(insertData.getName());
+            }
+			if(insertData.getId()!=null && insertData.getParentName() != null){
+            	entity.setParentName(insertData.getParentName());
+            }
+			if(insertData.getId()!=null && insertData.getStreamName() != null) {
+            	entity.setStreamName(insertData.getStreamName());
+            }
+			if(insertData.getId()!=null && insertData.getDOB() != null) {
+            	entity.setDOB(insertData.getDOB());
+            }
+			if(insertData.getId()!=null && insertData.getPOY() != null) {
+            	entity.setPOY(insertData.getPOY());
+            }
+			if(insertData.getId()!=null && insertData.getMobileNumber() != null) {
+            	entity.setMobileNumber(insertData.getMobileNumber());
+            }
+			if(insertData.getId()!=null && insertData.getMailID() != null) {
+            	entity.setMailID(insertData.getMailID());
+            }
+			if(insertData.getId()!=null && insertData.getAddress() != null) {
+            	entity.setAddress(insertData.getAddress());
+            }
+			if(insertData.getId()!=null && insertData.getStatus() != null){
+            	entity.setStatus(insertData.getStatus());
+            }
+			//IF I WANT TO SEND THE SAME DTO/DATA THAT HAS BEEN UPDATED 
+    		
+    		//SAVE ABOVE ENTITY DATA IN DB
+			EMSModel savedEntities = emsRepository.save(entity);
+			
+			response.setId(savedEntities.getId());
+			response.setRid(savedEntities.getRid());
+			response.setName(savedEntities.getName());
+			response.setParentName(savedEntities.getParentName());
+			response.setStreamName(savedEntities.getStreamName());
+			response.setDOB(savedEntities.getDOB());
+			response.setPOY(savedEntities.getPOY());
+			response.setMobileNumber(savedEntities.getMobileNumber());
+			response.setMailID(savedEntities.getMailID());
+			response.setAddress(savedEntities.getAddress());
+			response.setStatus(savedEntities.getStatus()); 
+	
+		}
+		
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return response;
+    }
+    
+//DELETE SINGLE EMPLOYEE DETAILS
+    
+    public EMSDeleteResponseDTO deleteEmployeeDetails(EMSDeleteRequestDTO insertData) {
+    	
+    	EMSDeleteResponseDTO response = new EMSDeleteResponseDTO();
+    	
+    	try {
+    	Optional<EMSModel> dbResponse = emsRepository.findById(insertData.getId());
+    	
+    	if (dbResponse.isPresent()) {
+            emsRepository.deleteById(insertData.getId());
+            response.setMessage("Employee with ID " + insertData.getId() + " deleted successfully");
+        } else {
+        	response.setMessage("Employee with ID " + insertData.getId() + " not found.");
+        }
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return response;
+    }
+
+//DELETE ALL EMPLOYEE DETAILS
+    
+	public EMSDeleteAllResponseDTO deleteEmployeeDetailsAll() {
+		
+		EMSDeleteAllResponseDTO response = new EMSDeleteAllResponseDTO();
+		
+		try {
+		List<EMSModel> dbResponse = emsRepository.findAll();
+		
+		if (!dbResponse.isEmpty()) {
+			
+            emsRepository.deleteAll();;
+            response.setMessage("All Employee details deleted successfully");
+        } else {
+        	response.setMessage("No Employee details found");
+        }
+		}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return response;
+	}
+    
+}

@@ -1,0 +1,62 @@
+package com.example.EMSbackend.Model;
+
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@Table(name="EMPLOYEE_DETAILS")
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class EMSNewModel {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq_gen")
+	@SequenceGenerator(name = "employee_seq_gen", sequenceName = "EMPLOYEE_SEQ", allocationSize = 1)
+	
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "E_R_ID")
+    private Long eRId;
+
+    @Column(name = "E_NAME")
+    private String eName;
+
+    @Column(name = "E_PARENT_NAME")
+    private String eParentName;
+
+    @Column(name = "E_STREAM_NAME")
+    private String eStreamName;
+
+    @Column(name = "E_DOB")
+    private LocalDate eDob;
+
+    @Column(name = "E_POY")
+    private LocalDate ePoy;
+
+    @Column(name = "E_MOBILE_NUMBER")
+    private String eMobileNumber;
+
+    @Column(name = "E_MAIL_ID")
+    private String eMailId;
+
+    @Column(name = "E_ADDRESS")
+    private String eAddress;
+
+    @Column(name = "E_STATUS")
+    private String eStatus;
+}
