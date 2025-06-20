@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.EMSbackend.DTO.EMSDeleteAllResponseDTO;
 import com.example.EMSbackend.DTO.EMSDeleteRequestDTO;
 import com.example.EMSbackend.DTO.EMSDeleteResponseDTO;
+import com.example.EMSbackend.DTO.EMSFilterEmployeeDetailsGroupDataRequestDTO;
+import com.example.EMSbackend.DTO.EMSFilterEmployeeDetailsGroupDataResponseDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsAllResponseDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsByIDRequestDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsByIDResponseDTO;
@@ -58,7 +60,7 @@ public class EMSService {
     	return response;
     }
     
-//GET_ALL_EMPLOYEE_DETAILS_BY_ID
+//GET_ALL_EMPLOYEE_DETAILS_BY_ID   ========================= CORECTION NEEDED, I have to return all the data filtered by an ID not the Ist row data only
     
     public EMSGetEmployeeDetailsByIDResponseDTO getEmployeeDetailsByID(EMSGetEmployeeDetailsByIDRequestDTO insertData) {
     	
@@ -139,8 +141,7 @@ public class EMSService {
     	
     }
     
-    
-   
+      
 //INSERT_ALL_EMPLOYEE_DETAILS(MULTIPLE/LIST)
     
     public EMSInsertMultipleResponseDTO insertEmployeeDetailsAll(EMSInsertMultipleRequestDTO insertData) {
@@ -562,6 +563,35 @@ public class EMSService {
     		e.printStackTrace();
     	}
     	return response;
+	}
+
+//ALL FILTERS SECTION 
+//IN PAYLOAD/REQUEST DATA A GROUP OF DATA FIELDS
+	public EMSFilterEmployeeDetailsGroupDataResponseDTO filterEmployeeDetailsGroupData(EMSFilterEmployeeDetailsGroupDataRequestDTO insertData) {
+	
+		EMSFilterEmployeeDetailsGroupDataResponseDTO response = new EMSFilterEmployeeDetailsGroupDataResponseDTO();
+		
+		try { 	
+			
+			List<EMSModel> modelDetails = (List<EMSModel>) emsRepository.filterEmployeeDetailsGroupData(
+					insertData.getRid(),
+					insertData.getName(),
+					insertData.getPOY(),
+					insertData.getStreamName(),
+					insertData.getStatus());
+			
+	    	if(!modelDetails.isEmpty()) {
+	    		
+	    		response.setFilterEmployeeDetailsGroupData(modelDetails);
+	    	}
+	    	else {
+	    		response.setMessage("Employee Filtered Details is Empty");
+	    	}
+	    	
+	    	}catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		return response;
 	}
     
 }

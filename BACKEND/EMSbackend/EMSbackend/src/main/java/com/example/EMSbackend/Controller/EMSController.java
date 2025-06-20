@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.EMSbackend.DTO.EMSDeleteAllResponseDTO;
 import com.example.EMSbackend.DTO.EMSDeleteRequestDTO;
 import com.example.EMSbackend.DTO.EMSDeleteResponseDTO;
+import com.example.EMSbackend.DTO.EMSFilterEmployeeDetailsGroupDataRequestDTO;
+import com.example.EMSbackend.DTO.EMSFilterEmployeeDetailsGroupDataResponseDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsAllResponseDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsByIDRequestDTO;
 import com.example.EMSbackend.DTO.EMSGetEmployeeDetailsByIDResponseDTO;
@@ -121,7 +123,15 @@ public class EMSController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-//ALL FILTERS SECTION -shameek raha
+//ALL FILTERS SECTION 
+//IN PAYLOAD/REQUEST DATA A GROUP OF DATA FIELDS
 	
+	@PostMapping("/filterEmployeeDetailsGroupData")
+	public ResponseEntity<EMSFilterEmployeeDetailsGroupDataResponseDTO>filterEmployeeDetailsGroupData(@RequestBody EMSFilterEmployeeDetailsGroupDataRequestDTO insertData)throws Exception{
+		
+		EMSFilterEmployeeDetailsGroupDataResponseDTO response = null;
+		response = emsService.filterEmployeeDetailsGroupData(insertData);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 	
 }
