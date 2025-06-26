@@ -1,0 +1,40 @@
+package com.example.EMSbackend.Repository;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.example.EMSbackend.Model.EMSModel;
+
+@Repository
+public interface EMSRepository extends JpaRepository<EMSModel, Long> {
+	
+
+//ALL FILTERS SECTION 
+//IN PAYLOAD/REQUEST DATA A GROUP OF DATA FIELDS
+
+	@Query("SELECT * FROM EMPLOYEE_DETAILS s WHERE "
+	       +"(s.rid = :rid) ")
+	List<EMSModel> filterEmployeeDetailsGroupDataByRegistrationID(@Param("rid") Integer rid );
+	
+	@Query("SELECT * FROM EMPLOYEE_DETAILS s WHERE "
+		       +"(s.name = :name) ")
+		List<EMSModel> filterEmployeeDetailsGroupDataByName(@Param("name") String name );
+	
+	@Query("SELECT * FROM EMPLOYEE_DETAILS s WHERE "
+		       +"(s.POY = :POY) ")
+		List<EMSModel> filterEmployeeDetailsGroupDataByPassOutYear(@Param("POY") LocalDate POY );
+	
+	@Query("SELECT * FROM EMPLOYEE_DETAILS s WHERE "
+		       +"(s.streamName = :streamName) ")
+		List<EMSModel> filterEmployeeDetailsGroupDataByStreamName(@Param("streamName") String streamName );
+	
+	@Query("SELECT * FROM EMPLOYEE_DETAILS s WHERE "
+		       +"(s.status = :status) ")
+		List<EMSModel> filterEmployeeDetailsGroupDataByStatus(@Param("status") String status );
+
+}

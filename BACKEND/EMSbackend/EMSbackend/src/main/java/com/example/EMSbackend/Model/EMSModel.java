@@ -46,11 +46,11 @@ public class EMSModel {
 	
 	@Column(name="E_DOB")
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate DOB;
+	private LocalDate dob;
 	
 	@Column(name="E_POY")
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate POY;
+	private LocalDate poy;
 	
 	@Column(name="E_MOBILE_NUMBER")
 	private String mobileNumber;

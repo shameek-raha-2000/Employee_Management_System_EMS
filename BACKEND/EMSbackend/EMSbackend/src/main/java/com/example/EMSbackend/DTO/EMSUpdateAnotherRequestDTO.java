@@ -19,10 +19,10 @@ public class EMSUpdateAnotherRequestDTO {
 	private String streamName;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate DOB;
+	private LocalDate dob;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate POY;
+	private LocalDate poy;
 
 	private String mobileNumber;
 	

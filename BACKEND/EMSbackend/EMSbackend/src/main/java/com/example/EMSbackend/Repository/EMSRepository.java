@@ -13,29 +13,15 @@ import com.example.EMSbackend.Model.EMSModel;
 @Repository
 public interface EMSRepository extends JpaRepository<EMSModel, Long> {
 	
-	
+//ALL FILTERS SECTION 
 //IF I WANT TO QUERY ALL THE DATA FIELDS IN ONE GO, 
 //THEN I HAVE TO INPUT ALL THE FILTERS DATA FIELD TOGETHER AND IF NOT HAVE TO PROVIDE NULL CHECKER 
 //Note - "AND" means check both || "OR" means anyone
 	
-	/*@Query("SELECT s FROM Student s WHERE "
-	         + "(:name IS NULL OR s.name = :name) AND "
-	         + "(:erollmentNumber IS NULL OR s.erollmentNumber = :erollmentNumber) AND "  
-	         + "(:poy IS NULL OR s.POY = :poy)")
-	    List<Student> filterStudents(
-	        @Param("name") String name,
-	        @Param("erollmentNumber") String erollmentNumber,
-	        @Param("poy") Integer poy
-	    );*/
-	
-
-//ALL FILTERS SECTION 
-//IN PAYLOAD/REQUEST DATA A GROUP OF DATA FIELDS
-
 	@Query( value = "SELECT * FROM EMPLOYEE_DETAILS s WHERE "
 			+ "(:rid IS NULL OR s.rid = :rid) AND "
 		    + "(:name IS NULL OR s.name = :name) AND "
-		    + "(:poy IS NULL OR s.POY = :poy) AND "
+		    + "(:poy IS NULL OR s.poy = :poy) AND "
 		    + "(:streamName IS NULL OR s.streamName = :streamName) AND "
 		    + "(:status IS NULL OR s.status = :status)",nativeQuery = true)
 	  

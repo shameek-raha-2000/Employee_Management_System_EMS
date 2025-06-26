@@ -9,7 +9,7 @@ public class EMSFilterEmployeeDetailsGroupDataRequestDTO {
 
 	private Integer rid;
 	private String name;
-	private LocalDate POY;
+	private LocalDate poy;
 	private String status;
 	private String streamName;
 }

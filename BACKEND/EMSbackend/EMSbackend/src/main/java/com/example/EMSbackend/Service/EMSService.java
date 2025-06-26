@@ -75,8 +75,8 @@ public class EMSService {
     			response.setName(modelDetails.get().getName());
     			response.setParentName(modelDetails.get().getParentName());
     			response.setStreamName(modelDetails.get().getStreamName());
-    			response.setDOB(modelDetails.get().getDOB());
-    			response.setPOY(modelDetails.get().getPOY());
+    			response.setDob(modelDetails.get().getDob());
+    			response.setPoy(modelDetails.get().getPoy());
     			response.setMobileNumber(modelDetails.get().getMobileNumber());
     			response.setMailID(modelDetails.get().getMailID());
     			response.setAddress(modelDetails.get().getAddress());
@@ -109,8 +109,8 @@ public class EMSService {
 			entity.setName(requestData.getName());
 			entity.setParentName(requestData.getParentName());
 			entity.setStreamName(requestData.getStreamName());
-			entity.setDOB(requestData.getDOB());
-			entity.setPOY(requestData.getPOY());
+			entity.setDob(requestData.getDob());
+			entity.setPoy(requestData.getPoy());
 			entity.setMobileNumber(requestData.getMobileNumber());
 			entity.setMailID(requestData.getMailID());
 			entity.setAddress(requestData.getAddress());
@@ -163,8 +163,8 @@ public class EMSService {
     			 entity.setName(dto.getName());
     			 entity.setParentName(dto.getParentName());
     			 entity.setStreamName(dto.getStreamName());
-    			 entity.setDOB(dto.getDOB());
-    			 entity.setPOY(dto.getPOY());
+    			 entity.setDob(dto.getDob());
+    			 entity.setPoy(dto.getPoy());
     			 entity.setMobileNumber(dto.getMobileNumber());
     			 entity.setMailID(dto.getMailID());
     			 entity.setAddress(dto.getAddress());
@@ -223,11 +223,11 @@ public class EMSService {
     			if(details.getId()!=null && details.getStreamName() != null) {
                 	entity.setStreamName(details.getStreamName());
                 }
-    			if(details.getId()!=null && details.getDOB() != null) {
-                	entity.setDOB(details.getDOB());
+    			if(details.getId()!=null && details.getDob() != null) {
+                	entity.setDob(details.getDob());
                 }
-    			if(details.getId()!=null && details.getPOY() != null) {
-                	entity.setPOY(details.getPOY());
+    			if(details.getId()!=null && details.getPoy() != null) {
+                	entity.setPoy(details.getPoy());
                 }
     			if(details.getId()!=null && details.getMobileNumber() != null) {
                 	entity.setMobileNumber(details.getMobileNumber());
@@ -479,11 +479,11 @@ public class EMSService {
 			if(insertData.getId()!=null && insertData.getStreamName() != null) {
             	entity.setStreamName(insertData.getStreamName());
             }
-			if(insertData.getId()!=null && insertData.getDOB() != null) {
-            	entity.setDOB(insertData.getDOB());
+			if(insertData.getId()!=null && insertData.getDob() != null) {
+            	entity.setDob(insertData.getDob());
             }
-			if(insertData.getId()!=null && insertData.getPOY() != null) {
-            	entity.setPOY(insertData.getPOY());
+			if(insertData.getId()!=null && insertData.getPoy() != null) {
+            	entity.setPoy(insertData.getPoy());
             }
 			if(insertData.getId()!=null && insertData.getMobileNumber() != null) {
             	entity.setMobileNumber(insertData.getMobileNumber());
@@ -507,8 +507,8 @@ public class EMSService {
 			response.setName(savedEntities.getName());
 			response.setParentName(savedEntities.getParentName());
 			response.setStreamName(savedEntities.getStreamName());
-			response.setDOB(savedEntities.getDOB());
-			response.setPOY(savedEntities.getPOY());
+			response.setDob(savedEntities.getDob());
+			response.setPoy(savedEntities.getPoy());
 			response.setMobileNumber(savedEntities.getMobileNumber());
 			response.setMailID(savedEntities.getMailID());
 			response.setAddress(savedEntities.getAddress());
@@ -576,7 +576,7 @@ public class EMSService {
 			List<EMSModel> modelDetails = (List<EMSModel>) emsRepository.filterEmployeeDetailsGroupData(
 					insertData.getRid(),
 					insertData.getName(),
-					insertData.getPOY(),
+					insertData.getPoy(),
 					insertData.getStreamName(),
 					insertData.getStatus());
 			
