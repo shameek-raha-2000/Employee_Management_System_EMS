@@ -1,0 +1,14 @@
+# Eclipse / STS
+.metadata/
+.classpath
+.project
+.settings/
+
+# Build
+target/
+
+# IDE
+.idea/
+
+# Logs
+*.log

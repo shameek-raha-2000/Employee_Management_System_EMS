@@ -1,5 +1,0 @@
-package com.example.EMSbackend.DTO;
-
-public class EMSGetEmployeeDetailsByIDResponseDTO {
-
-}
