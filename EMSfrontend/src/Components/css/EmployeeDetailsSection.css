@@ -137,30 +137,35 @@
 }
 
 /* Mobile Employee Cards */
+/* ===== MOBILE EMPLOYEE CARD (IMPROVED) ===== */
+
 .employee-card-mobile {
-  background: white;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e9ecef;
   transition: all 0.3s ease;
 }
 
 .employee-card-mobile:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
+/* ===== HEADER ===== */
 .employee-card-header {
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f1f1;
 }
 
+/* AVATAR */
 .employee-avatar {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: #007bff;
   display: flex;
@@ -171,92 +176,155 @@
   flex-shrink: 0;
 }
 
-.employee-info {
-  flex: 1;
-}
-
-.employee-name {
-  font-size: 1.2rem;
+/* NAME */
+.name {
+  font-size: 1rem;
   font-weight: 600;
-  color: #343a40;
-  margin-bottom: 0.5rem;
+  color: #212529;
+  line-height: 1.2;
 }
 
-.employee-email, .employee-id {
+/* PARENT NAME */
+.sub-text {
+  font-size: 0.85rem;
   color: #6c757d;
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
+  margin-top: 2px;
 }
 
+/* ===== INFO SECTION ===== */
+.employee-info {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* EACH ROW */
+.employee-info div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #495057;
+  padding: 2px 0;
+}
+
+/* LABEL */
+.employee-info div span:first-child {
+  font-weight: 500;
+  color: #6c757d;
+}
+
+/* VALUE */
+.employee-info div span:last-child {
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+/* ===== ACTION BUTTONS ===== */
 .employee-actions {
   display: flex;
-  gap: 0.5rem;
   justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
 }
 
+/* BUTTON STYLE (optional improve) */
+.btn-action {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+/* ===== RESPONSIVE IMPROVEMENT ===== */
+@media (max-width: 480px) {
+  .employee-card-mobile {
+    padding: 1rem;
+  }
+
+  .name {
+    font-size: 0.95rem;
+  }
+
+  .employee-info div {
+    font-size: 0.8rem;
+  }
+}
 /* Desktop Table */
 .table-container {
   background: white;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e9ecef;
-  overflow: hidden;
+  overflow-x: auto; /* 🔥 important for responsive */
 }
 
+/* ===== TABLE ===== */
 .employee-table {
-  margin: 0;
-  border: none;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
 }
 
+/* ===== HEADER ===== */
 .employee-table thead th {
   background: #f8f9fa;
   color: #343a40;
-  border: none;
-  padding: 1rem;
+  padding: 12px;
+
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   letter-spacing: 0.5px;
+
+  text-align: center;          /* 🔥 center align */
+  vertical-align: middle;
+  white-space: nowrap;         /* 🔥 prevent breaking */
+
   border-bottom: 2px solid #e9ecef;
 }
 
+/* ICON ALIGNMENT */
+.employee-table thead th svg {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ===== BODY ROW ===== */
 .employee-table tbody tr {
-  border: none;
-  transition: all 0.3s ease;
+  transition: 0.2s ease;
 }
 
 .employee-table tbody tr:hover {
   background: #f8f9fa;
 }
 
+/* ===== TABLE CELLS ===== */
 .employee-table tbody td {
-  padding: 1rem;
-  border: none;
-  border-bottom: 1px solid #f8f9fa;
+  padding: 12px;
+
+  text-align: center;          /* 🔥 align all */
   vertical-align: middle;
+  white-space: nowrap;         /* 🔥 no wrap */
+
+  border-bottom: 1px solid #eee;
 }
 
-.employee-id-badge {
-  background: #007bff;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
+/* ===== NAME COLUMN ===== */
 .employee-name-cell {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+ /* justify-content: center;      🔥 center content */
+  gap: 8px;
+  justify-content: flex-start;
 }
 
+/* AVATAR */
 .employee-avatar-small {
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: #6c757d;
   display: flex;
@@ -266,10 +334,20 @@
   font-size: 0.9rem;
 }
 
+/* ===== ID BADGE ===== */
+.employee-id-badge {
+  background: #007bff;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ===== EMAIL ===== */
 .email-link {
   color: #007bff;
   text-decoration: none;
-  transition: all 0.3s ease;
 }
 
 .email-link:hover {
@@ -277,27 +355,28 @@
   text-decoration: underline;
 }
 
-/* Action Buttons */
+/* ===== ACTION BUTTONS ===== */
 .action-buttons {
   display: flex;
-  gap: 0.5rem;
   justify-content: center;
+  gap: 6px;
 }
 
 .btn-action {
-  width: 35px;
-  height: 35px;
+  width: 34px;
+  height: 34px;
   border-radius: 6px;
   border: none;
-  color: white;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+
+  font-size: 0.85rem;
+  transition: 0.2s;
 }
 
+/* EDIT */
 .btn-edit {
   background: #ffc107;
   color: #212529;
@@ -306,11 +385,12 @@
 .btn-edit:hover {
   background: #e0a800;
   transform: translateY(-1px);
-  color: #212529;
 }
 
+/* DELETE */
 .btn-delete {
   background: #dc3545;
+  color: white;
 }
 
 .btn-delete:hover {
@@ -326,6 +406,9 @@
     border-radius: 6px;
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
+  }
+  .employee-table {
+    min-width: 900px; /* 🔥 prevents column squeeze */
   }
 }
 

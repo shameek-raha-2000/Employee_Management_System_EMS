@@ -3,6 +3,8 @@ import {
   createEmployee,
   getEmployeeDetailsAll,
   updateEmployee,
+  getEmployeeByID
+  
 }from "../Services/EMSService";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -78,18 +80,20 @@ const navigator = useNavigate();
 
   // ✅ Load data for edit
   useEffect(() => {
-    if (id) {
-      setIsLoading(true);
-
-      getEmployeeDetailsAll(id)
-        .then((response) => {
-          console.log("EDIT DATA:", response.data);
-          setEmployee(response.data); // full object
-        })
-        .catch(console.error)
-        .finally(() => setIsLoading(false));
-    }
-  }, [id]);
+  console.log("ID from URL:", id);
+  if (id) {
+    setIsLoading(true);
+    getEmployeeDetailsAll()
+      .then((response) => {
+        const allEmployees = response.data.employeeDetailsAll; // ← your data is nested here
+        const found = allEmployees.find((emp) => emp.id === parseInt(id));
+        console.log("FOUND EMPLOYEE:", found);
+        if (found) setEmployee(found);
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }
+}, [id]);
 
   // ✅ Handle input change
   const handleChange = (e) => {

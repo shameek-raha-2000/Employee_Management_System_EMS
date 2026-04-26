@@ -158,75 +158,50 @@ const EmployeeDetailsSection = () => {
             {filteredEmployees.map((employee) => (
               <div key={employee.id} className="col-12 mb-3">
                 <div className="employee-card-mobile">
+
+                  {/* HEADER */}
                   <div className="employee-card-header">
                     <div className="employee-avatar">
                       <FaUserTie />
                     </div>
-                        <div className="employee-info">
-                            <p className="employee-id">
-                                <FaIdCard className="me-2" />
-                                ID: {employee.id}
-                            </p>
-
-                            <p className="employee-rid">
-                                <FaIdCard className="me-2" />
-                                Registartion ID: {employee.rid}
-                            </p>
-
-                            <h5 className="employee-name">
-                                {employee.name}
-                            </h5>
-
-                            <h5 className="parent-name">
-                                Parent Name: {employee.parentName}
-                            </h5>
-
-                            <p className="employee-email">
-                                <FaEnvelope className="me-2" />
-                                {employee.mailID}
-                            </p>
-
-                            <p className="employee-mobile">
-                                Email :{employee.mobileNumber}
-                            </p>
-
-                            <p className="employee-stream">
-                                Stream: {employee.streamName}
-                            </p>
-
-                            <p className="employee-dob">
-                                Date of Birth: {employee.dob}
-                            </p>
-
-                            <p className="employee-poy">
-                                Pass Out Year: {employee.poy}
-                            </p>
-
-                            <p className="employee-address">
-                                Address: {employee.address}
-                            </p>
-
-                            <p className="employee-status">
-                                Status: {employee.status}
-                            </p>
+                    <div>
+                      <div className="name">{employee.name}</div>
+                      <div className="sub-text">{employee.parentName}</div>
                     </div>
                   </div>
+
+                  {/* INFO */}
+                  <div className="employee-info">
+
+                    <div><span>ID</span><span>{employee.id}</span></div>
+                    <div><span>Reg ID</span><span>{employee.rid}</span></div>
+                    <div><span>Email</span><span>{employee.mailID}</span></div>
+                    <div><span>Mobile</span><span>{employee.mobileNumber}</span></div>
+                    <div><span>Stream</span><span>{employee.streamName}</span></div>
+                    <div><span>DOB</span><span>{employee.dob}</span></div>
+                    <div><span>Pass Year</span><span>{employee.poy}</span></div>
+                    <div><span>Address</span><span>{employee.address}</span></div>
+                    <div><span>Status</span><span>{employee.status}</span></div>
+
+                  </div>
+
+                  {/* ACTIONS */}
                   <div className="employee-actions">
                     <button
                       className="btn btn-action btn-edit"
                       onClick={() => updateEmployeeDetails(employee.id)}
                     >
-                      <FaEdit className="me-1" />
-                      Edit
+                      <FaEdit className="me-1" /> Edit
                     </button>
+
                     <button
                       className="btn btn-action btn-delete"
                       onClick={() => deleteEmployeeDetails(employee.id)}
                     >
-                      <FaTrashAlt className="me-1" />
-                      Delete
+                      <FaTrashAlt className="me-1" /> Delete
                     </button>
                   </div>
+
                 </div>
               </div>
             ))}
@@ -235,94 +210,102 @@ const EmployeeDetailsSection = () => {
 
       {/* Employee Table for Desktop */}
         <div className="d-none d-lg-block">
-        <div className="table-container">
+          <div className="table-container">
             <div className="table-responsive">
-            <table className="table employee-table">
+              <table className="table employee-table">
+
+                {/* ===== HEADER ===== */}
                 <thead>
-                <tr>
-                    <th><FaIdCard className="me-2" />ID</th>
-                    <th><FaIdCard className="me-2" />RID</th>
-                    <th><FaUserTie className="me-2" />Name</th>
-                    <th><FaIdCard className="me-2" />Parent Name</th>
-                    <th><FaIdCard className="me-2" />Stream</th>
-                    <th><FaIdCard className="me-2" />Date of Birth</th>
-                    <th><FaIdCard className="me-2" />Pass Out Year</th>
-                    <th><FaIdCard className="me-2" />Mobile</th>
-                    <th><FaEnvelope className="me-2" />Email</th>
-                    <th><FaIdCard className="me-2" />Address</th>
-                    <th><FaIdCard className="me-2" />Status</th>
-                    <th className="text-center">Actions</th>
-                </tr>
+                  <tr>
+                    <th><FaIdCard /> ID</th>
+                    <th><FaIdCard /> Reg ID</th>
+                    <th><FaUserTie /> Name</th>
+                    <th><FaIdCard /> Parent</th>
+                    <th><FaIdCard /> Stream</th>
+                    <th><FaIdCard /> DOB</th>
+                    <th><FaIdCard /> Pass Year</th>
+                    <th><FaIdCard /> Mobile</th>
+                    <th><FaEnvelope /> Email</th>
+                    <th><FaIdCard /> Address</th>
+                    <th><FaIdCard /> Status</th>
+                    <th>Actions</th>
+                  </tr>
                 </thead>
 
+                {/* ===== BODY ===== */}
                 <tbody>
-                {filteredEmployees.map((employee) => (
+                  {filteredEmployees.map((employee) => (
                     <tr key={employee.id}>
-                    
-                    <td>
+
+                      <td>
                         <span className="employee-id-badge">{employee.id}</span>
-                    </td>
+                      </td>
 
-                    <td>{employee.rid}</td>
+                      <td>{employee.rid}</td>
 
-                    <td>
+                      <td>
                         <div className="employee-name-cell">
-                        <div className="employee-avatar-small">
+                          <div className="employee-avatar-small">
                             <FaUserTie />
+                          </div>
+                          <span className="name-text">{employee.name}</span>
                         </div>
-                        {employee.name}
-                        </div>
-                    </td>
+                      </td>
 
-                    <td>{employee.parentName}</td>
+                      <td className="sub-text">{employee.parentName}</td>
 
-                    <td>{employee.streamName}</td>
+                      <td>{employee.streamName}</td>
 
-                    <td>{employee.dob}</td>
+                      <td>{employee.dob}</td>
 
-                    <td>{employee.poy}</td>
+                      <td>{employee.poy}</td>
 
-                    <td>{employee.mobileNumber}</td>
+                      <td>{employee.mobileNumber}</td>
 
-                    <td>
+                      <td>
                         <a
-                        href={`mailto:${employee.mailID}`}
-                        className="email-link"
+                          href={`mailto:${employee.mailID}`}
+                          className="email-link"
                         >
-                        {employee.mailID}
+                          {employee.mailID}
                         </a>
-                    </td>
+                      </td>
 
-                    <td>{employee.address}</td>
+                      <td className="address-cell">{employee.address}</td>
 
-                    <td>{employee.status}</td>
+                      <td>
+                        <span className={`status-badge ${employee.status === 'Active' ? 'active' : 'inactive'}`}>
+                          {employee.status}
+                        </span>
+                      </td>
 
-                    <td>
+                      <td>
                         <div className="action-buttons">
-                        <button
+                          <button
                             className="btn btn-action btn-edit"
                             onClick={() => updateEmployeeDetails(employee.id)}
-                            title="Edit Employee"
-                        >
+                            title="Edit"
+                          >
                             <FaEdit />
-                        </button>
+                          </button>
 
-                        <button
+                          <button
                             className="btn btn-action btn-delete"
                             onClick={() => deleteEmployeeDetails(employee.id)}
-                            title="Delete Employee"
-                        >
+                            title="Delete"
+                          >
                             <FaTrashAlt />
-                        </button>
+                          </button>
                         </div>
-                    </td>
+                      </td>
 
                     </tr>
-                ))}
+                  ))}
                 </tbody>
-            </table>
+
+              </table>
             </div>
-        </div>
+          </div>
         </div>
       {/* Empty State */}
         {filteredEmployees.length === 0 && (
